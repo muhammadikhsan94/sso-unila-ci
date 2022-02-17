@@ -1,5 +1,5 @@
-name: codeigniter-cas-library
-version: 0.0.2
+name: sso-unila-ci
+version: 0.0.1
 compatibility: 2.1.2
 # dependencies:
 

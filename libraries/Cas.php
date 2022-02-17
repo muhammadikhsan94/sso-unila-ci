@@ -79,10 +79,17 @@ class Cas {
     public function user()
     {
     	if (phpCAS::isAuthenticated()) {
-	    	$userlogin = phpCAS::getUser();
-	    	$attributes = phpCAS::getAttributes();
-	    	return (object) array('userlogin' => $userlogin,
-	    		'attributes' => $attributes);
+			// Get attribute release from CAS SERVER
+			$details = phpCAS::getAttributes();
+			
+			// Create new user object, initially empty.
+			$user = new \stdClass();
+			$user->username = phpCAS::getUser();
+			$user->nm_pengguna = $details['nm_pengguna'];
+			$user->a_aktif = $details['a_aktif'];
+			$user->last_sync = $details['last_sync'];
+		
+			return $user;
     	} else {
     		show_error("User was not authenticated yet.");
     	}
@@ -95,11 +102,23 @@ class Cas {
     public function logout($url = '')
     {
     	if (empty($url)) {
-    		$this->CI->load->helper('url');
-    		$url = base_url();
+			phpCAS::logout();
+    		// $this->CI->load->helper('url');
+    		// $url = base_url();
 		}
     	phpCAS::logoutWithRedirectService($url);
     }
+
+	public function cookieClear() {
+	  if (isset($_COOKIE['PHPSESSID'])) {
+		  unset($_COOKIE['PHPSESSID']);
+		  return setcookie('PHPSESSID', '', time() - 3600, '/'); // empty value and old timestamp
+	  }
+	}
+
+	public function check() {
+	  return phpCAS::checkAuthentication();
+	}
 
     public function is_authenticated()
     {
