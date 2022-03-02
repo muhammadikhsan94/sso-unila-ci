@@ -16,6 +16,8 @@ function cas_show_config_error(){
 
 class Cas {
 
+
+
 	public function __construct(){
 		if (!function_exists('curl_init')){
 			show_error('<strong>ERROR:</strong> You need to install the PHP module
@@ -47,7 +49,7 @@ class Cas {
 		}
 
 		// init CAS client
-		$defaults = array('path' => '', 'port' => 443);
+		$defaults = array('path' => '/cas', 'port' => 443);
 		$cas_url = array_merge($defaults, parse_url($this->cas_server_url));
 
 		phpCAS::client(CAS_VERSION_2_0, $cas_url['host'],
@@ -68,9 +70,20 @@ class Cas {
 	/**
 	  * Trigger CAS authentication if user is not yet authenticated.
 	  */
-    public function force_auth()
+	  function cas_login_fix_phpcas_alter() {
+		phpCAS::setNoClearTicketsFromUrl();
+	  }  
+    public function authenticate()
     {
+		// ob_start();
+		// session_start();
+		
     	phpCAS::forceAuthentication();
+    }
+
+    
+    public function check() {
+        phpCAS::checkAuthentication();
     }
 
     /**
@@ -79,17 +92,10 @@ class Cas {
     public function user()
     {
     	if (phpCAS::isAuthenticated()) {
-			// Get attribute release from CAS SERVER
-			$details = phpCAS::getAttributes();
-			
-			// Create new user object, initially empty.
-			$user = new \stdClass();
-			$user->username = phpCAS::getUser();
-			$user->nm_pengguna = $details['nm_pengguna'];
-			$user->a_aktif = $details['a_aktif'];
-			$user->last_sync = $details['last_sync'];
-		
-			return $user;
+	    	$userlogin = phpCAS::getUser();
+	    	$attributes = phpCAS::getAttributes();
+	    	return (object) array('userlogin' => $userlogin,
+	    		'attributes' => $attributes);
     	} else {
     		show_error("User was not authenticated yet.");
     	}
@@ -102,23 +108,11 @@ class Cas {
     public function logout($url = '')
     {
     	if (empty($url)) {
-			phpCAS::logout();
-    		// $this->CI->load->helper('url');
-    		// $url = base_url();
+    		$this->CI->load->helper('url');
+    		$url = base_url();
 		}
     	phpCAS::logoutWithRedirectService($url);
     }
-
-	public function cookieClear() {
-	  if (isset($_COOKIE['PHPSESSID'])) {
-		  unset($_COOKIE['PHPSESSID']);
-		  return setcookie('PHPSESSID', '', time() - 3600, '/'); // empty value and old timestamp
-	  }
-	}
-
-	public function check() {
-	  return phpCAS::checkAuthentication();
-	}
 
     public function is_authenticated()
     {
