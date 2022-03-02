@@ -8,15 +8,15 @@ Library PHP-CI untuk memudahkan aplikasi menggunakan fasilitas login SSO Univers
 
 2. Salin *config/cas.php* kedalam folder *config* anda, dan lakukan perubahan:
 
-	<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-	$config['cas_server_url'] = 'https://login.unila.ac.id';
-	$config['phpcas_path'] = '/application/libraries/phpCAS';
-	$config['cas_disable_server_validation'] = TRUE;
-	// $config['cas_debug'] = TRUE; // <--  use this to enable phpCAS debug mode
+		<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+		$config['cas_server_url'] = 'https://login.unila.ac.id';
+		$config['phpcas_path'] = '/application/libraries/phpCAS';
+		$config['cas_disable_server_validation'] = TRUE;
+		// $config['cas_debug'] = TRUE; // <--  use this to enable phpCAS debug mode
 
 3. Tambahkan *cas* kedalam *autoload* seperti contoh berikut:
 
-	$autoload['libraries'] = array('cas');
+		$autoload['libraries'] = array('cas');
 
 ## Penggunaan
 Sekarang, anda dapat mencoba dengan menambahkan di *controller* sebagai berikut:
