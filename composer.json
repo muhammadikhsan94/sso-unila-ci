@@ -1,5 +1,6 @@
 {
     "name": "unila/sso-ci",
+    "minimum-stability": "dev",
     "type": "library",
     "description": "Utility Authentication with SSO-UNILA",
     "keywords": ["authentication"],
