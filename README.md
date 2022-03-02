@@ -22,7 +22,7 @@ Library PHP-CI untuk memudahkan aplikasi menggunakan fasilitas login SSO Univers
 Sekarang, anda dapat mencoba dengan menambahkan di *controller* sebagai berikut:
 
 	function showLogin() {
-		if($this->session->has_userdata('id')) { //check session id
+		if($this->session->has_userdata('name_session')) { //check session id
 			redirect('/'); //redirect to index
 		} else {
 			$this->load->view('signing_process'); //redirect to login page
