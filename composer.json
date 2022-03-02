@@ -16,5 +16,8 @@
     "require": {
       "php": ">=7.1.0",
       "apereo/phpcas": "*"
+    },
+    "autoload": {
+      "psr-0": { "SSO": "."}
     }
   }
