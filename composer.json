@@ -1,6 +1,5 @@
 {
     "name": "unila/sso-ci",
-    "minimum-stability": "dev",
     "type": "library",
     "description": "Utility Authentication with SSO-UNILA",
     "keywords": ["authentication"],
@@ -13,6 +12,7 @@
         "homepage": "http://muhammadikhsan94.github.io"
       }
     ],
+    "minimum-stability": "dev",
     "require": {
       "php": ">=7.1.0",
       "apereo/phpcas": "*"
