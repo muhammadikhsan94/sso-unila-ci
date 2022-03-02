@@ -90,3 +90,9 @@ Untuk model, disesuaikan dengan model yang telah ada dalam aplikasi anda. sebaga
 			return $this->db->update($this->_table, $data, ['id' => $id]);
 		}
 	}
+
+## Thanks to
+
+1. PhpCAS
+2. eliasdorneles/code-igniter-cas-library
+3. egiesem/CAS-SSO-Codeigniter-3-Library-
